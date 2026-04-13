@@ -441,8 +441,13 @@ export default function App() {
                 viewport={{ once: true }}
                 className="group relative"
               >
-                <div className="glass p-8 rounded-3xl h-full flex flex-col hover:border-emerald-500/30 transition-all duration-500">
-                  <div className="mb-6 inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400">
+                <a 
+                  href={cert.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass p-8 rounded-3xl h-full flex flex-col hover:border-emerald-500/30 transition-all duration-500 cursor-pointer group/card"
+                >
+                  <div className="mb-6 inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 group-hover/card:scale-110 transition-transform">
                     <Award className="w-6 h-6" />
                   </div>
                   <span className="text-xs font-mono text-emerald-400/60 mb-2 uppercase tracking-wider">{cert.date}</span>
@@ -452,14 +457,11 @@ export default function App() {
                   </p>
                   <div className="flex items-center justify-between mt-auto">
                     <span className="text-xs font-medium text-zinc-500">{cert.issuer}</span>
-                    <a 
-                      href={cert.link} 
-                      className="p-2 rounded-full hover:bg-white/5 text-zinc-400 hover:text-white transition-all"
-                    >
+                    <div className="p-2 rounded-full bg-white/5 text-emerald-400 opacity-0 group-hover/card:opacity-100 transition-all">
                       <ExternalLink className="w-4 h-4" />
-                    </a>
+                    </div>
                   </div>
-                </div>
+                </a>
               </motion.div>
             ))}
           </div>
