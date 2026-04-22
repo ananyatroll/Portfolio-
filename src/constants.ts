@@ -241,6 +241,34 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Pedagogical training in instructing the AI Fluency Framework, including lesson planning, learner assessment, and educational delivery methods.',
     link: 'https://verify.skilljar.com/c/icv8a6fbfgpi',
   },
+  {
+    title: 'Basics of Machine Learning Algorithms',
+    issuer: 'UniAthena in partnership with Cambridge International Qualifications, UK',
+    date: '2026',
+    description: 'Foundational understanding of core machine learning algorithms, model training principles, and practical applications for data-driven problem solving. Blockchain-verified via FEDE (ID: 9848-4366-7732).',
+    link: 'https://lavender-working-anteater-929.mypinata.cloud/ipfs/bafybeiaimsydwpklpo4fc6xtgwjerouzxd7zrwsystgbwtsbcoziysacsi',
+  },
+  {
+    title: 'Basics of Python',
+    issuer: 'UniAthena in partnership with Cambridge International Qualifications, UK',
+    date: '2026',
+    description: 'Foundational proficiency in Python programming syntax, logic structures, and problem-solving techniques for software development and data analysis. Blockchain-verified via FEDE (ID: 2461-1530-7720).',
+    link: 'https://lavender-working-anteater-929.mypinata.cloud/ipfs/bafybeicoka5itd26246hk6mls22yz6o6u7qjpjfpdy23g4c42ujp65r6wy',
+  },
+  {
+    title: 'Basics of Digital Marketing',
+    issuer: 'UniAthena in partnership with Cambridge International Qualifications, UK',
+    date: '2026',
+    description: 'Foundational knowledge of digital marketing strategies, audience engagement tactics, and analytics tools for effective online campaign management. Blockchain-verified via FEDE (ID: 5620-1461-4158).',
+    link: 'https://lavender-working-anteater-929.mypinata.cloud/ipfs/bafybeihnpzoocg7c5qyprnw7zv2aulqfzsyxgp3g3kjecfqbx5d5tzcy64',
+  },
+  {
+    title: 'Basics of Data Science',
+    issuer: 'UniAthena in partnership with Cambridge International Qualifications, UK',
+    date: '2026',
+    description: 'Foundational skills in data collection, cleaning, analysis, and visualization techniques for extracting actionable insights from complex datasets. Blockchain-verified via FEDE (ID: 8332-1509-0127).',
+    link: 'https://lavender-working-anteater-929.mypinata.cloud/ipfs/bafybeihhdml2sliiu64ka7kmipgrxtdrb23ubap7inpijzheaywh4r47aq',
+  },
 ];
 
 export const PROJECTS: Project[] = [
