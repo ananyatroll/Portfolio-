@@ -205,7 +205,6 @@ function SectionHeading({ title, subtitle, badge }: { title: string; subtitle?: 
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
   const [visibleCertsCount, setVisibleCertsCount] = useState(5);
   const [selectedIssuer, setSelectedIssuer] = useState<string | null>(null);
 
@@ -213,13 +212,6 @@ export default function App() {
   useEffect(() => {
     setVisibleCertsCount(5);
   }, [selectedIssuer]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 4000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll();
@@ -231,43 +223,9 @@ export default function App() {
     : CERTIFICATES;
 
   return (
-    <div className={`min-h-screen ${showSplash ? 'bg-brutal-black' : 'bg-brutal-white'} selection:bg-neon-pink selection:text-white grid-bg transition-colors duration-1000`} ref={containerRef}>
-      <AnimatePresence mode="wait">
-        {showSplash && (
-          <motion.div
-            key="splash"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-            className="fixed inset-0 z-[100] bg-brutal-black flex items-center justify-center overflow-hidden"
-          >
-            <motion.div
-              initial={{ scale: 1.1, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1.2, ease: "circOut" }}
-              className="w-full h-full flex items-center justify-center p-0"
-            >
-              <video 
-                src="https://lavender-working-anteater-929.mypinata.cloud/ipfs/bafkreihvjez7r5ti4uq53vibjr2bl7gxue5mn67o3jyosnpbdqxpaj2ucu" 
-                autoPlay 
-                muted 
-                playsInline
-                onEnded={() => setShowSplash(false)}
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: showSplash ? 0 : 1 }}
-        transition={{ duration: 1, delay: 0.2 }}
-        className={showSplash ? 'invisible' : 'visible'}
-      >
-        {/* Navigation */}
-        <nav className="fixed top-0 left-0 w-full z-50 p-6 lg:p-10 flex justify-between items-center pointer-events-none">
+    <div className="min-h-screen bg-brutal-white selection:bg-neon-pink selection:text-white grid-bg transition-colors duration-1000" ref={containerRef}>
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 w-full z-50 p-6 lg:p-10 flex justify-between items-center pointer-events-none">
         <motion.div 
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -633,7 +591,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-    </motion.div>
-  </div>
-);
+    </div>
+  );
 }
