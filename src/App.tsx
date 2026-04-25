@@ -206,7 +206,13 @@ function SectionHeading({ title, subtitle, badge }: { title: string; subtitle?: 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [visibleCertsCount, setVisibleCertsCount] = useState(5);
   const [selectedIssuer, setSelectedIssuer] = useState<string | null>(null);
+
+  // Reset count when filter changes
+  useEffect(() => {
+    setVisibleCertsCount(5);
+  }, [selectedIssuer]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -308,23 +314,41 @@ export default function App() {
 
       <main className="relative z-10">
         {/* Hero Section */}
-        <section id="about" className="min-h-screen flex flex-col justify-center px-6 lg:px-20 pt-32 pb-20 overflow-visible">
-          <div className="relative">
-            <motion.div
-              initial={{ rotate: -5, scale: 0.9, opacity: 0 }}
-              animate={{ rotate: 0, scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: "circOut" }}
-              className="absolute -top-32 -left-10 lg:-top-56 lg:-left-20 text-[18vw] font-display text-stroke opacity-30 select-none pointer-events-none z-0 whitespace-nowrap"
-              style={{ WebkitTextStroke: '2px rgba(0,0,0,0.2)' }}
-            >
-              ANANYA BAYABLE
-            </motion.div>
+        <section id="about" className="min-h-screen flex flex-col justify-center px-4 lg:px-20 pt-32 pb-20 overflow-hidden relative">
+          <div className="absolute inset-0 z-0 flex items-center justify-center perspective-[1500px] pointer-events-none overflow-hidden">
+            <div className="relative w-[200%] h-full flex items-center">
+              <motion.div
+                animate={{ 
+                  x: ["-50%", "0%"]
+                }}
+                transition={{ 
+                  x: { repeat: Infinity, duration: 20, ease: "linear" }
+                }}
+                className="flex whitespace-nowrap"
+                style={{ 
+                  transform: 'rotateX(65deg) rotateZ(-15deg)',
+                  transformStyle: 'preserve-3d'
+                }}
+              >
+                {[...Array(6)].map((_, i) => (
+                  <span 
+                    key={i} 
+                    className="text-[20vw] font-display text-stroke opacity-20 select-none px-10"
+                    style={{ WebkitTextStroke: '2px rgba(0,0,0,0.15)' }}
+                  >
+                    ANANYA BAYABLE •
+                  </span>
+                ))}
+              </motion.div>
+            </div>
+          </div>
 
+          <div className="relative w-full">
             <motion.h1 
-              initial={{ y: 100, opacity: 0 }}
+              initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.8 }}
-              className="relative z-10 text-[14vw] lg:text-[11vw] font-display uppercase leading-[0.85] mb-8 lg:mb-12 tracking-tighter ml-8 lg:ml-20"
+              className="relative z-10 text-[16vw] lg:text-[11vw] font-display uppercase leading-[0.8] mb-8 lg:mb-12 tracking-tighter ml-4 lg:ml-20"
             >
               I BUILD <br />
               <span className="text-neon-pink">BOLD </span> <br />
@@ -349,7 +373,7 @@ export default function App() {
                       href="https://lavender-working-anteater-929.mypinata.cloud/ipfs/bafkreiga3ah5gjnf6m4ztu4eggwez2g3cj3bqahk6wmksolq24rs5ue6ee"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="brutal-btn"
+                      className="brutal-border bg-neon-yellow px-6 py-3 lg:px-8 lg:py-4 font-display text-lg lg:text-xl uppercase hover:translate-y-[-4px] transition-transform"
                     >
                       Resume
                     </a>
@@ -443,25 +467,42 @@ export default function App() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {SKILLS.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                initial={{ scale: 0.8, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                transition={{ delay: index * 0.05 }}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: 'Frontend', icon: Code2, color: 'text-blue-400' },
+              { title: 'Backend', icon: Terminal, color: 'text-neon-green' },
+              { title: 'Design', icon: Palette, color: 'text-neon-pink' },
+              { title: 'Tools', icon: Cpu, color: 'text-neon-yellow' }
+            ].map((cat, i) => (
+              <motion.div 
+                key={cat.title}
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="brutal-border bg-zinc-900 p-8 flex flex-col justify-between hover:bg-neon-green hover:text-brutal-black transition-colors"
-                style={{
-                  transform: `rotate(${Math.sin(index) * 2}deg)`
-                }}
+                className="brutal-border bg-zinc-900 p-8 flex flex-col h-full"
               >
-                <span className="font-display text-4xl uppercase leading-none mb-6">
-                  {skill.name}
-                </span>
-                <div className="flex justify-between items-end">
-                   <span className="font-mono text-sm opacity-50 uppercase">{skill.category}</span>
-                   <span className="font-display text-2xl">{skill.level}%</span>
+                <div className={`p-4 bg-white/10 w-fit mb-8 ${cat.color} brutal-border-sm shadow-none`}>
+                  <cat.icon className="w-8 h-8" />
+                </div>
+                <h3 className="text-4xl font-display uppercase mb-8 tracking-tight">{cat.title}</h3>
+                <div className="space-y-6">
+                  {SKILLS.filter(s => s.category === cat.title).map(skill => (
+                    <div key={skill.name}>
+                      <div className="flex justify-between font-mono text-sm mb-2 uppercase opacity-60">
+                        <span>{skill.name}</span>
+                        <span>{skill.level}%</span>
+                      </div>
+                      <div className="h-4 w-full bg-white/10 brutal-border-sm shadow-none overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${skill.level}%` }}
+                          transition={{ duration: 1.5, ease: "circOut" }}
+                          className={`h-full bg-white`}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </motion.div>
             ))}
@@ -500,7 +541,7 @@ export default function App() {
 
           <div className="space-y-4">
             <AnimatePresence mode="popLayout">
-              {filteredCerts.map((cert, index) => (
+              {filteredCerts.slice(0, visibleCertsCount).map((cert, index) => (
                 <motion.a
                   key={cert.title}
                   layout
@@ -510,7 +551,7 @@ export default function App() {
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   exit={{ x: 20, opacity: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ delay: index % 5 * 0.05 }}
                   className="block group brutal-border bg-white p-8 hover:bg-neon-blue hover:translate-x-4 transition-all"
                 >
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -533,6 +574,18 @@ export default function App() {
               ))}
             </AnimatePresence>
           </div>
+
+          {visibleCertsCount < filteredCerts.length && (
+            <div className="mt-12 flex justify-center">
+              <button
+                onClick={() => setVisibleCertsCount(prev => prev + 5)}
+                className="brutal-border bg-neon-yellow px-6 py-3 lg:px-8 lg:py-4 font-display text-lg lg:text-xl uppercase hover:translate-y-[-4px] transition-transform flex items-center gap-3"
+              >
+                View More
+                <Plus className="w-5 h-5 lg:w-6 lg:h-6" />
+              </button>
+            </div>
+          )}
         </section>
 
         {/* Contact Section */}
