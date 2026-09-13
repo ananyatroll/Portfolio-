@@ -3,22 +3,24 @@ import { useRef, useState, useEffect } from 'react';
 import { 
   Mail, 
   ExternalLink, 
-  Award,
-  Download,
-  Github,
-  ArrowUpRight,
-  Plus,
-  Menu,
-  X as CloseIcon,
-  ChevronLeft,
-  ChevronRight,
-  Camera,
-  Code2,
-  Terminal,
-  Palette,
-  Cpu
+  Award, 
+  Download, 
+  Github, 
+  Plus, 
+  Menu, 
+  X as CloseIcon, 
+  ChevronLeft, 
+  ChevronRight, 
+  Camera, 
+  Code2, 
+  Terminal, 
+  Palette, 
+  Cpu,
+  Layers
 } from 'lucide-react';
 import { SOCIAL_LINKS, SKILLS, CERTIFICATES, PROJECTS, PICTURES } from './constants';
+import ProjectsPage from './components/ProjectsPage';
+import ProductShowcase from './components/ProductShowcase';
 
 function EthiopianFlag() {
   return (
@@ -207,6 +209,29 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [visibleCertsCount, setVisibleCertsCount] = useState(5);
   const [selectedIssuer, setSelectedIssuer] = useState<string | null>(null);
+  const [currentView, setCurrentView] = useState<'home' | 'projects'>('home');
+
+  // Sync with hash for direct linking / bookmarking
+  useEffect(() => {
+    const handleHash = () => {
+      if (
+        window.location.hash === '#products-page' || 
+        window.location.hash === '#products' || 
+        window.location.hash === '#projects-page' || 
+        window.location.hash === '#projects'
+      ) {
+        setCurrentView('projects');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (window.location.hash === '' || window.location.hash === '#about') {
+        if (currentView === 'projects') {
+          setCurrentView('home');
+        }
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, [currentView]);
 
   // Reset count when filter changes
   useEffect(() => {
@@ -222,6 +247,18 @@ export default function App() {
     ? CERTIFICATES.filter(c => c.issuer === selectedIssuer)
     : CERTIFICATES;
 
+  if (currentView === 'projects') {
+    return (
+      <ProjectsPage 
+        onBack={() => {
+          setCurrentView('home');
+          window.location.hash = '';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }} 
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-brutal-white selection:bg-neon-pink selection:text-white grid-bg transition-colors duration-1000" ref={containerRef}>
       {/* Navigation */}
@@ -229,16 +266,21 @@ export default function App() {
         <motion.div 
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="bg-white brutal-border-sm px-4 lg:px-6 py-2 pointer-events-auto flex items-center gap-3"
+          className="bg-white brutal-border-sm px-4 lg:px-6 py-2 pointer-events-auto flex items-center gap-3 cursor-pointer"
+          onClick={() => {
+            setCurrentView('home');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
         >
           <span className="font-display text-xl lg:text-2xl tracking-tighter uppercase font-bold">ANANYA . B</span>
           <EthiopianFlag />
         </motion.div>
 
-        <div className="flex gap-4 pointer-events-auto">
+        <div className="flex items-center gap-3 pointer-events-auto">
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="p-3 lg:p-4 bg-neon-yellow brutal-border-sm hover:rotate-3 transition-transform"
+            aria-label="Toggle Menu"
           >
             {isMenuOpen ? <CloseIcon className="w-5 h-5 lg:w-6 lg:h-6" /> : <Menu className="w-5 h-5 lg:w-6 lg:h-6" />}
           </button>
@@ -252,19 +294,31 @@ export default function App() {
         transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
         className="fixed inset-0 z-40 bg-brutal-black text-white flex flex-col justify-center p-10 lg:p-20 overflow-hidden"
       >
-        <div className="flex flex-col gap-6 lg:gap-12">
-          {['About', 'Moments', 'Work', 'Skills', 'Certs', 'Contact'].map((item, i) => (
+        <div className="flex flex-col gap-6 lg:gap-10">
+          {[
+            { label: 'About', href: '#about', action: () => setCurrentView('home') },
+            { label: 'Featured Product', href: '#featured-product', action: () => setCurrentView('home') },
+            { label: 'Product Page', href: '#products-page', action: () => setCurrentView('projects') },
+            { label: 'Moments', href: '#moments', action: () => setCurrentView('home') },
+            { label: 'Work', href: '#work', action: () => setCurrentView('home') },
+            { label: 'Skills', href: '#skills', action: () => setCurrentView('home') },
+            { label: 'Certs', href: '#certs', action: () => setCurrentView('home') },
+            { label: 'Contact', href: '#contact', action: () => setCurrentView('home') }
+          ].map((item, i) => (
             <motion.a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                onClick={() => setIsMenuOpen(false)}
+                key={item.label}
+                href={item.href}
+                onClick={() => {
+                  item.action();
+                  setIsMenuOpen(false);
+                }}
                 initial={{ x: -50, opacity: 0 }}
                 animate={isMenuOpen ? { x: 0, opacity: 1 } : { x: -50, opacity: 0 }}
-                transition={{ delay: 0.2 + i * 0.1 }}
-                className="font-display text-4xl lg:text-[10vw] uppercase leading-none tracking-tighter hover:text-neon-green transition-colors flex items-center gap-4 group"
+                transition={{ delay: 0.15 + i * 0.08 }}
+                className="font-display text-4xl lg:text-[8vw] uppercase leading-none tracking-tighter hover:text-neon-green transition-colors flex items-center gap-4 group"
             >
-              <span className="font-mono text-2xl opacity-30 group-hover:opacity-100 italic transition-opacity">0{i+1}</span>
-              {item}
+              <span className="font-mono text-xl lg:text-2xl opacity-30 group-hover:opacity-100 italic transition-opacity">0{i+1}</span>
+              {item.label}
             </motion.a>
           ))}
         </div>
@@ -272,7 +326,7 @@ export default function App() {
 
       <main className="relative z-10">
         {/* Hero Section */}
-        <section id="about" className="min-h-screen flex flex-col justify-center px-4 lg:px-20 pt-32 pb-20 overflow-hidden relative">
+        <section id="about" className="min-h-screen flex flex-col justify-center px-4 lg:px-20 pt-32 pb-12 overflow-hidden relative">
           <div className="absolute inset-0 z-0 flex items-center justify-center perspective-[1500px] pointer-events-none overflow-hidden">
             <div className="relative w-[200%] h-full flex items-center">
               <motion.div
@@ -356,6 +410,15 @@ export default function App() {
           </div>
         </section>
 
+        {/* Featured Product Display at Top */}
+        <ProductShowcase 
+          onOpenProductsPage={() => {
+            setCurrentView('projects');
+            window.location.hash = '#products-page';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
+
         {/* Moments Section */}
         <section id="moments" className="py-24 lg:py-48 px-6 lg:px-20 bg-white">
           <SectionHeading title="Moments" subtitle="A visual journey through my experiences, milestones, and the things that inspire me." />
@@ -378,11 +441,15 @@ export default function App() {
                 viewport={{ once: true }}
                 className="group cursor-pointer"
               >
-                <div className="brutal-card group-hover:scale-[1.02] transition-transform duration-500 !p-0 overflow-hidden aspect-[4/3] relative">
+                <div 
+                  className="brutal-card group-hover:scale-[1.02] transition-transform duration-500 !p-0 overflow-hidden aspect-[4/3] relative"
+                  style={{ backgroundColor: project.bgColor || undefined }}
+                >
                   <img 
                     src={project.image} 
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    style={{ backgroundColor: project.bgColor || undefined }}
+                    className={`w-full h-full ${project.bgColor ? 'object-contain p-8' : 'object-cover'} transition-transform duration-700 group-hover:scale-110`}
                     referrerPolicy="no-referrer"
                   />
 
@@ -400,7 +467,14 @@ export default function App() {
                             </span>
                         ))}
                     </div>
-                    <h3 className="text-4xl lg:text-6xl font-display uppercase tracking-tighter mb-2 underline underline-offset-8 decoration-4 decoration-neon-pink">
+                    <h3 
+                      onClick={() => {
+                        setCurrentView('projects');
+                        window.location.hash = '#projects-page';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="text-4xl lg:text-6xl font-display uppercase tracking-tighter mb-2 underline underline-offset-8 decoration-4 decoration-neon-pink hover:text-neon-pink transition-colors"
+                    >
                       {project.title}
                     </h3>
                   </div>
@@ -569,27 +643,8 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="py-12 lg:py-24 px-6 lg:px-20 bg-brutal-black text-white overflow-hidden">
-        <div className="flex flex-col lg:flex-row justify-between items-center gap-10">
-          <div className="relative">
-            <h2 className="text-[10vw] lg:text-[8vw] font-display uppercase leading-[0.6] select-none text-stroke -ml-2 lg:-ml-6 mb-4">ANANYA.B</h2>
-            <div className="flex items-center gap-4">
-              <span className="w-8 h-8 bg-neon-pink"></span>
-              <p className="font-mono text-lg uppercase tracking-widest opacity-80">Digital Architect</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-end gap-6">
-            <p className="font-mono text-sm opacity-50">© 2026 ANANYA BAYABLE. ALL RIGHTS RESERVED.</p>
-            <motion.a 
-              href="#about"
-              whileHover={{ y: -10 }}
-              className="w-16 h-16 bg-neon-green text-brutal-black brutal-border flex items-center justify-center shrink-0 cursor-pointer"
-            >
-               <ArrowUpRight className="-rotate-90 w-6 h-6" />
-            </motion.a>
-          </div>
-        </div>
+      <footer className="py-8 lg:py-12 px-6 lg:px-20 bg-brutal-black text-white text-center">
+        <p className="font-mono text-sm opacity-50">© 2026 ANANYA BAYABLE. ALL RIGHTS RESERVED.</p>
       </footer>
     </div>
   );

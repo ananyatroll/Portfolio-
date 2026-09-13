@@ -38,11 +38,14 @@ export interface Certificate {
 
 export interface Project {
   title: string;
+  websiteName?: string;
   description: string;
   tags: string[];
   link?: string;
   github?: string;
   image?: string;
+  logo?: string;
+  bgColor?: string;
 }
 
 export const SOCIAL_LINKS: SocialLink[] = [
@@ -273,7 +276,18 @@ export const CERTIFICATES: Certificate[] = [
 
 export const PROJECTS: Project[] = [
   {
+    title: 'ተምህሮ / Temhiro',
+    websiteName: 'temhiro-web.vercel.app',
+    description: 'Welcome to ተምህሮ / Temhiro — an interactive educational product featuring an auto-cycling transparent app screenshot slideshow, categorized curriculum feature cards, integrated legal and compliance suite (EULA, Privacy Policy, Terms of Service), and an ultra-lightweight, fast mobile-first architecture.',
+    tags: ['Education', 'EdTech', 'Product', 'Mobile-First', 'Interactive'],
+    link: 'https://temhiro-web.vercel.app/',
+    logo: 'https://lavender-working-anteater-929.mypinata.cloud/ipfs/bafybeidxtfxjqetbbi235hrthpyk5tvukp77avwjtevlvbpho62dtvwmxu',
+    image: 'https://lavender-working-anteater-929.mypinata.cloud/ipfs/bafybeidxtfxjqetbbi235hrthpyk5tvukp77avwjtevlvbpho62dtvwmxu',
+    bgColor: '#0b1632'
+  },
+  {
     title: 'ECX Wallet & EBC Ecosystem',
+    websiteName: 'ebcinfo.vercel.app',
     description: 'A comprehensive blockchain wallet and digital ecosystem designed for the EBC community, featuring secure asset management and decentralized services.',
     tags: ['Blockchain', 'Web3', 'Wallet', 'Ecosystem'],
     link: 'https://ebcinfo.vercel.app',
@@ -282,6 +296,7 @@ export const PROJECTS: Project[] = [
   },
   {
     title: 'Blockchain Voting Platform',
+    websiteName: 'github.com/ananyatroll/blockvote',
     description: 'A secure and transparent voting system built with HTML, CSS, and JavaScript, leveraging blockchain technology for tamper-proof results.',
     tags: ['Blockchain', 'HTML', 'CSS', 'JavaScript'],
     github: 'https://github.com/ananyatroll/blockvote',
@@ -289,6 +304,7 @@ export const PROJECTS: Project[] = [
   },
   {
     title: 'AAU GPA Calculator',
+    websiteName: 'aaugpacalculator.netlify.app',
     description: 'A specialized GPA calculator designed for Addis Ababa University students to easily track their academic performance.',
     tags: ['HTML', 'CSS', 'JavaScript', 'Education'],
     link: 'https://aaugpacalculator.netlify.app/',
@@ -296,6 +312,7 @@ export const PROJECTS: Project[] = [
   },
   {
     title: 'Class Status Bot',
+    websiteName: 't.me/Classstatuss_bot',
     description: 'A comprehensive Telegram bot that provides students with real-time updates and information about their classes.',
     tags: ['Telegram Bot', 'Node.js', 'Education'],
     link: 'https://t.me/Classstatuss_bot',
@@ -303,6 +320,7 @@ export const PROJECTS: Project[] = [
   },
   {
     title: 'Zen Budgeting Bot',
+    websiteName: 't.me/zenbudgeting_bot',
     description: 'A personal finance and budgeting assistant integrated directly into Telegram for easy expense tracking.',
     tags: ['Telegram Bot', 'FinTech', 'Node.js'],
     link: 'https://t.me/zenbudgeting_bot',
@@ -310,6 +328,7 @@ export const PROJECTS: Project[] = [
   },
   {
     title: 'Charity Donation Tracker',
+    websiteName: 'github.com/ananyatroll/miniature-sniffle',
     description: 'A transparent software solution for tracking charity donations and ensuring accountability in philanthropic efforts.',
     tags: ['Software', 'Charity', 'Transparency'],
     github: 'https://github.com/ananyatroll/miniature-sniffle',
@@ -317,6 +336,7 @@ export const PROJECTS: Project[] = [
   },
   {
     title: 'Blockchain Land Management',
+    websiteName: 'github.com/ananyatroll/land-managment-using-block-chain',
     description: 'A secure land management system for government and citizens, leveraging blockchain for immutable property records.',
     tags: ['Blockchain', 'GovTech', 'Security'],
     github: 'https://github.com/ananyatroll/land-managment-using-block-chain',
@@ -324,6 +344,7 @@ export const PROJECTS: Project[] = [
   },
   {
     title: 'QWN Trading Bot',
+    websiteName: 't.me/qwntrading_bot',
     description: 'An automated trading bot built with Python that scans markets for high-probability signals and executes trades via Exness on MT5.',
     tags: ['Python', 'Trading', 'MT5', 'Automation'],
     link: 'https://t.me/qwntrading_bot',

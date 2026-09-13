@@ -1,5 +1,6 @@
 {
-  "name": "Ananya Bayable's Portfolio Site",
-  "description": "Personal portfolio of Ananya Bayable, showcasing skills, certificates, and social links.",
-  "requestFramePermissions": []
+  "name": "Ananya's portfolio",
+  "description": "Personal portfolio of Ananya Bayable, showcasing projects, skills, certificates, and moments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
